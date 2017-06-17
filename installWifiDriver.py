@@ -38,7 +38,9 @@ if sys.argv[1] == 'install':
     subprocess.Popen('make').wait()
     shutil.copy('8812au.ko', '/lib/modules/' + platform.release() + '/kernel/drivers/net/wireless/8812au.ko')
     subprocess.Popen('depmod').wait()
-
+    
+    os.chdir('..')
+    
     if os.path.isdir(os.path.join(os.getcwd(), 'rtl8812au-master')):
         shutil.rmtree('rtl8812au-master')
 
