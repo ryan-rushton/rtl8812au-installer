@@ -47,9 +47,11 @@ if sys.argv[1] == 'install':
     if os.path.isdir(os.path.join(os.getcwd(), 'rtl8812au-master')):
         shutil.rmtree('rtl8812au-master')
 
+lsmod = subprocess.Popen(['lsmod'], stdout=subprocess.PIPE)
+std_out, std_err = lsmod.communicate()
+
 print('Inserting module')
-if os.path.isfile('/lib/modules/' + platform.release() +
-                  '/kernel/drivers/net/wireless/8812au.ko'):
+if b'8812au' in std_out:
     subprocess.Popen(['rmmod', '8812au.ko']).wait()
     subprocess.Popen(['insmod', '/lib/modules/' + platform.release() +
                       '/kernel/drivers/net/wireless/8812au.ko']).wait()
